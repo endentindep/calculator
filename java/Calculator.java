@@ -88,7 +88,7 @@ class Calculator {
 		}
 	}
 
-	static int toArabic(String string) throws CalculatorException {
+	static String toArabic(String string) throws CalculatorException {
 		int result = 0;
 		int current = 0;
 		int last = 0;
@@ -130,7 +130,7 @@ class Calculator {
 				throw new CalculatorException("Number greater than 10");
 			}
 		}
-		return result;
+		return String.valueOf(result);
 	}
 
 	static String toRoman(int num) throws CalculatorException {
@@ -238,39 +238,27 @@ class Calculator {
 		system = checkNumberSystem(string);
 		checkNumbers(numbers, system);
 		if (system == "roman") {
-			switch (operation) {
-				case "\\+":
-					result = toRoman(toArabic(numbers[0]) + toArabic(numbers[1]));
-					break;
-				case "-":
-					result = toRoman(toArabic(numbers[0]) - toArabic(numbers[1]));
-					break;
-				case "\\*":
-					result = toRoman(toArabic(numbers[0]) * toArabic(numbers[1]));
-					break;
-				case "/":
-					result = toRoman(toArabic(numbers[0]) / toArabic(numbers[1]));
-					break;
-				default:
-					break;
-			}
-		} else {
-			switch (operation) {
-				case "\\+":
-					result = String.valueOf(Integer.valueOf(numbers[0]) + Integer.valueOf(numbers[1]));
-					break;
-				case "-":
-					result = String.valueOf(Integer.valueOf(numbers[0]) - Integer.valueOf(numbers[1]));
-					break;
-				case "\\*":
-					result = String.valueOf(Integer.valueOf(numbers[0]) * Integer.valueOf(numbers[1]));
-					break;
-				case "/":
-					result = String.valueOf(Integer.valueOf(numbers[0]) / Integer.valueOf(numbers[1]));
-					break;
-				default:
-					break;
-			}
+			numbers[0] = toArabic(numbers[0]);
+			numbers[1] = toArabic(numbers[1]);
+		}
+		switch (operation) {
+			case "\\+":
+				result = String.valueOf(Integer.valueOf(numbers[0]) + Integer.valueOf(numbers[1]));
+				break;
+			case "-":
+				result = String.valueOf(Integer.valueOf(numbers[0]) - Integer.valueOf(numbers[1]));
+				break;
+			case "\\*":
+				result = String.valueOf(Integer.valueOf(numbers[0]) * Integer.valueOf(numbers[1]));
+				break;
+			case "/":
+				result = String.valueOf(Integer.valueOf(numbers[0]) / Integer.valueOf(numbers[1]));
+				break;
+			default:
+				break;
+		}
+		if (system == "roman") {
+			return toRoman(Integer.valueOf(result));
 		}
 		return result;
 	}
